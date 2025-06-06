@@ -875,7 +875,7 @@ pub struct ViewDepthTexture {
     attachment: DepthAttachment,
 }
 
-impl bevy_ecs::component::Component for ViewDepthTexture {
+impl Component for ViewDepthTexture {
     const STORAGE_TYPE: bevy_ecs::component::StorageType = bevy_ecs::component::StorageType::Table;
     type Mutability = bevy_ecs::component::Mutable;
 

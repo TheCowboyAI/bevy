@@ -5,7 +5,7 @@
 
 use bevy_app::{App, Plugin};
 use bevy_asset::{load_internal_asset, weak_handle, Handle};
-use bevy_ecs::{component::{Component, ComponentId, ComponentsRegistrator, RequiredComponents}, entity::Entity, prelude::ReflectComponent};
+use bevy_ecs::{component::Component, entity::Entity, prelude::ReflectComponent};
 use bevy_reflect::{prelude::ReflectDefault, Reflect};
 
 use crate::{
