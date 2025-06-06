@@ -869,10 +869,25 @@ impl ViewTarget {
     }
 }
 
-#[derive(Component)]
+// PATCH: Manually implement Component to work around linking issues
 pub struct ViewDepthTexture {
     pub texture: Texture,
     attachment: DepthAttachment,
+}
+
+impl bevy_ecs::component::Component for ViewDepthTexture {
+    const STORAGE_TYPE: bevy_ecs::component::StorageType = bevy_ecs::component::StorageType::Table;
+    type Mutability = bevy_ecs::component::Mutable;
+
+    fn register_required_components(
+        _requiree: bevy_ecs::component::ComponentId,
+        _components: &mut bevy_ecs::component::ComponentsRegistrator,
+        _required_components: &mut bevy_ecs::component::RequiredComponents,
+        _inheritance_depth: u16,
+        _recursion_check_stack: &mut Vec<bevy_ecs::component::ComponentId>
+    ) {
+        // No required components
+    }
 }
 
 impl ViewDepthTexture {

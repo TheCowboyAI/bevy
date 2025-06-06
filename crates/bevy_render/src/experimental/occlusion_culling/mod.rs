@@ -5,7 +5,7 @@
 
 use bevy_app::{App, Plugin};
 use bevy_asset::{load_internal_asset, weak_handle, Handle};
-use bevy_ecs::{component::Component, entity::Entity, prelude::ReflectComponent};
+use bevy_ecs::{component::{Component, ComponentId, ComponentsRegistrator, RequiredComponents}, entity::Entity, prelude::ReflectComponent};
 use bevy_reflect::{prelude::ReflectDefault, Reflect};
 
 use crate::{
@@ -94,7 +94,8 @@ pub struct OcclusionCulling;
 ///
 /// Bevy automatically places this component on views created for shadow
 /// mapping. You don't ordinarily need to add this component yourself.
-#[derive(Clone, Component)]
+// PATCH: Manually implement Component to work around linking issues
+#[derive(Clone)]
 pub struct OcclusionCullingSubview {
     /// A texture view of the Z-buffer.
     pub depth_texture_view: TextureView,
@@ -114,3 +115,19 @@ pub struct OcclusionCullingSubview {
 /// You don't ordinarily need to add this component yourself.
 #[derive(Clone, Component)]
 pub struct OcclusionCullingSubviewEntities(pub Vec<Entity>);
+
+// PATCH: Manually implement Component for OcclusionCullingSubview
+impl Component for OcclusionCullingSubview {
+    const STORAGE_TYPE: bevy_ecs::component::StorageType = bevy_ecs::component::StorageType::Table;
+    type Mutability = bevy_ecs::component::Mutable;
+
+    fn register_required_components(
+        _requiree: bevy_ecs::component::ComponentId,
+        _components: &mut bevy_ecs::component::ComponentsRegistrator,
+        _required_components: &mut bevy_ecs::component::RequiredComponents,
+        _inheritance_depth: u16,
+        _recursion_check_stack: &mut Vec<bevy_ecs::component::ComponentId>
+    ) {
+        // No required components
+    }
+}
